@@ -19,6 +19,11 @@ const mainNavItems: NavItem[] = [
         href: '/users',///bu kısımlar aynı olmalı sayfadaki ile
         icon: LayoutGrid,
     },
+         {
+        title: 'Roller',
+        href: '/rol',///bu kısımlar aynı olmalı sayfadaki ile yani web.php
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

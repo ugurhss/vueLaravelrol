@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,6 +15,7 @@ Route::get('dashboard', function () {
 
 
 Route::resource("users",UserController::class);
+Route::resource("rol",RoleController::class);
 
 
 require __DIR__.'/settings.php';

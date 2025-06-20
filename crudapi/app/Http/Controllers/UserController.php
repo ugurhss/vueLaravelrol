@@ -60,7 +60,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Inertia::render("users/show", [
+            "user" => User::findOrFail($id)
+        ]);
     }
 
     /**
@@ -78,26 +80,28 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, string $id)
     {
-         $request->validate([
-        "name" => "required|string|max:255",
-        "email" => "required|string|email|max:255|unique:users",
-    ]);
-
-    $user= User::findOrFail($id);
-    $user->name = $request->name;
-    $user->email = $request->email;
-
-    if($request->filled("password")) {
         $request->validate([
-            "password" => "required|string|min:8|confirmed"
+            "name" => "required|string|max:255",
+            "email" => "required|string|email|max:255|unique:users,email," . $id,
         ]);
-        $user->password = Hash::make($request->password);
-    }
-    $user->save();
 
-    return redirect()->route("users.index")->with("success", "Kullanıcı düzenlendi.");
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->filled("password")) {
+            $request->validate([
+                "password" => "required|string|min:8|confirmed"
+            ]);
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route("users.index")->with("success", "Kullanıcı düzenlendi.");
     }
 
     /**
@@ -105,6 +109,7 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        User::destroy($id);
+        return to_route("users.index")->with("success", "Kullanıcı silindi.");
     }
 }
